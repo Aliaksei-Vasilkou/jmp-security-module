@@ -4,8 +4,8 @@ import com.epam.jmp.security.model.AppUser;
 import com.epam.jmp.security.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -17,12 +17,12 @@ public class RegistrationController {
         this.userService = userService;
     }
 
-    @GetMapping("/register")
+    @PostMapping("/register")
     @ResponseBody
-    public ResponseEntity<String> register(@RequestParam String name, @RequestParam String password) {
+    public ResponseEntity<String> register(@RequestBody AppUser request) {
         AppUser user = new AppUser();
-        user.setName(name);
-        user.setPassword(password);
+        user.setName(request.getName());
+        user.setPassword(request.getPassword());
         userService.register(user);
 
         return ResponseEntity.ok("User successfully registered");

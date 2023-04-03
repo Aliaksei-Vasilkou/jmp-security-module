@@ -3,6 +3,7 @@ package com.epam.jmp.security.config;
 import com.epam.jmp.security.handler.AuthenticationFailureHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,7 +26,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityWebFilterChain(HttpSecurity http, AuthenticationFailureHandler authenticationFailureHandler) throws Exception {
 
-        return http.authorizeHttpRequests(authorize -> authorize
+        return http.csrf().disable()
+                .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/", "/about", "/register").permitAll()
                         .requestMatchers("/info").hasAuthority("VIEW_INFO")
                         .requestMatchers("/admin").hasAuthority("VIEW_ADMIN")
